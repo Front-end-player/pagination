@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination explame</title>
+
+  <link rel="stylesheet" href="./pagination.css">
+</head>
+<body>
+  <div class="box"></div>
+  <script src="./pagination.js"></script>
+  <script>
+    const pagination = {
+      totalPages: 67,
+      pageNumber: 1,
+      panelNumber: 8,
+      pageSize: 5,
+      onPageChange(target){
+
+        // do something you can customize 
+        this.pageNumber = target
+        console.log(this);
+        console.log(target);
+
+
+        loadPagination(this, (temp)=>{
+          const oBox = document.querySelector('.box');
+          oBox.innerHTML = temp;
+          
+          const oPageItem = [...document.getElementsByClassName('page-item')];
+          console.log(oPageItem);
+          for (const item of oPageItem) {
+            if(item) {
+              item.addEventListener('click',function(){
+                if(this.id === 'next') {
+                  console.log('next>>>',Number(pagination.pageNumber) + 1);
+                  toPage(Number(pagination.pageNumber) + 1 > pagination.totalPages ? pagination.totalPages : Number(pagination.pageNumber) + 1, pagination)
+                } else if (this.id === 'prev') {
+                  toPage(Number(pagination.pageNumber) - 1 < 1 ? 1 : Number(pagination.pageNumber) - 1, pagination)
+                } else {
+                  console.log(this.dataset.index);
+                  toPage(this.dataset.index, pagination)
+                }
+              })
+            }
+      }
+      
+      
+    })
+
+      }
+    }
+
+    // init   // You can customize to execute this code somewhere
+    loadPagination(pagination, (temp)=>{
+      const oBox = document.querySelector('.box');
+      oBox.innerHTML = temp;
+      
+      const oPageItem = [...document.getElementsByClassName('page-item')];
+      console.log(oPageItem);
+      for (const item of oPageItem) {
+        if(item) {
+          item.addEventListener('click',function(){
+            if(this.id === 'next') {
+              toPage(pagination.pageNumber + 1 > pagination.totalPages ? pagination.totalPages : pagination.pageNumber + 1, pagination)
+            } else if (this.id === 'prev') {
+              toPage(pagination.pageNumber - 1 < 1 ? 1 : pagination.pageNumber - 1, pagination)
+            } else {
+              toPage(this.dataset.index, pagination)
+            }
+          })
+        }
+      }
+      
+      
+    })
+
+  </script>
+</body>
+</html>
