@@ -50,7 +50,7 @@ function loadPagination(props, callback) {
  * @param {*} props
  */
 function getPageNumber(props) {
-    return Math.ceil(props.totalPages / props.pageSize);
+    return Math.ceil(props.total / props.pageSize);
 }
 
 /**
